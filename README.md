@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+***Source***
+
+- ROCm compatible version of this repository - [CycleGAN-Tensorflow-2](https://github.com/LynnHo/CycleGAN-Tensorflow-2)
+=======
 ***Recommendation***
 
 - Our GAN based work for facial attribute editing - [AttGAN](https://github.com/LynnHo/AttGAN-Tensorflow).
@@ -5,6 +10,7 @@
 ***New***
 
 - We re-implement CycleGAN by **Tensorflow 2**! The old versions are here: [v1](https://github.com/LynnHo/CycleGAN-Tensorflow-PyTorch/tree/v1), [v0](https://github.com/LynnHo/CycleGAN-Tensorflow-PyTorch/tree/v0).
+>>>>>>> e5fecb902ff884968da182a8482c430b57f7cdc8
 
 <hr style="height:1px" />
 
@@ -44,11 +50,19 @@ row 1: apple -> orange -> reconstructed apple, row 2: orange -> apple -> reconst
 
 - Prerequisites
 
+<<<<<<< HEAD
+    - Tensorflow 2.0`pip install tensorflow-rocm==2.0.0b3`
+    - (if you meet "tf.summary.histogram fails with TypeError" `pip install --upgrade tb-nightly`)
+    - scikit-image, oyaml, tqdm
+    - Python 3.6
+    - ROCm 2.7
+=======
     - Tensorflow 2.0 Alpha `pip install tensorflow-gpu==2.0.0-alpha0`
     - Tensorflow Addons `pip install tensorflow-addons`
     - (if you meet "tf.summary.histogram fails with TypeError" `pip install --upgrade tb-nightly`)
     - scikit-image, oyaml, tqdm
     - Python 3.6
+>>>>>>> e5fecb902ff884968da182a8482c430b57f7cdc8
 
 - Dataset
 
@@ -69,7 +83,11 @@ row 1: apple -> orange -> reconstructed apple, row 2: orange -> apple -> reconst
 - Example of training
 
     ```console
+<<<<<<< HEAD
+    HIP_VISIBLE_DEVICES=0 python3 train.py --dataset summer2winter_yosemite
+=======
     CUDA_VISIBLE_DEVICES=0 python train.py --dataset summer2winter_yosemite
+>>>>>>> e5fecb902ff884968da182a8482c430b57f7cdc8
     ```
 
     - tensorboard for loss visualization
@@ -81,5 +99,9 @@ row 1: apple -> orange -> reconstructed apple, row 2: orange -> apple -> reconst
 - Example of testing
 
     ```console
+<<<<<<< HEAD
+    HIP_VISIBLE_DEVICES=0 python3 test.py --experiment_dir ./output/summer2winter_yosemite
+=======
     CUDA_VISIBLE_DEVICES=0 python test.py --experiment_dir ./output/summer2winter_yosemite
+>>>>>>> e5fecb902ff884968da182a8482c430b57f7cdc8
     ```
