@@ -1,9 +1,5 @@
 import tensorflow as tf
-<<<<<<< HEAD
 import tfa.normalizations as tfalayers
-=======
-import tensorflow_addons as tfa
->>>>>>> e5fecb902ff884968da182a8482c430b57f7cdc8
 import tensorflow.keras as keras
 
 
@@ -17,17 +13,11 @@ def _get_norm_layer(norm):
     elif norm == 'batch_norm':
         return keras.layers.BatchNormalization
     elif norm == 'instance_norm':
-<<<<<<< HEAD
         return tfalayers.InstanceNormalization
         pass
     elif norm == 'layer_norm':
         return keras.layers.LayerNormalization
         pass
-=======
-        return tfa.layers.InstanceNormalization
-    elif norm == 'layer_norm':
-        return tfa.layers.LayerNormalization
->>>>>>> e5fecb902ff884968da182a8482c430b57f7cdc8
 
 
 class Pad(keras.layers.Layer):

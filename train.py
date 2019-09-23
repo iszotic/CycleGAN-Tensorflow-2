@@ -18,11 +18,7 @@ import module
 # ==============================================================================
 
 py.arg('--dataset', default='horse2zebra')
-<<<<<<< HEAD
 py.arg('--output_index', default='')
-=======
-py.arg('--datasets_dir', default='datasets')
->>>>>>> e5fecb902ff884968da182a8482c430b57f7cdc8
 py.arg('--load_size', type=int, default=286)  # load image to this size
 py.arg('--crop_size', type=int, default=256)  # then crop to this size
 py.arg('--batch_size', type=int, default=1)
@@ -34,7 +30,6 @@ py.arg('--adversarial_loss_mode', default='lsgan', choices=['gan', 'hinge_v1', '
 py.arg('--gradient_penalty_mode', default='none', choices=['none', 'dragan', 'wgan-gp'])
 py.arg('--gradient_penalty_weight', type=float, default=10.0)
 py.arg('--cycle_loss_weight', type=float, default=10.0)
-<<<<<<< HEAD
 py.arg('--identity_loss_weight', type=float, default=0.0)
 py.arg('--pool_size', type=int, default=50)  # pool size to store fake samples
 
@@ -50,14 +45,6 @@ args = py.args()
 
 # output_dir
 output_dir = py.join('output', args.dataset + ('' if args.output_index == '' else '_'+ str(args.output_index)))
-=======
-py.arg('--identity_loss_weight', type=float, default=0.1)
-py.arg('--pool_size', type=int, default=50)  # pool size to store fake samples
-args = py.args()
-
-# output_dir
-output_dir = py.join('output', args.dataset)
->>>>>>> e5fecb902ff884968da182a8482c430b57f7cdc8
 py.mkdir(output_dir)
 
 # save settings
@@ -68,34 +55,23 @@ py.args_to_yaml(py.join(output_dir, 'settings.yml'), args)
 # =                                    data                                    =
 # ==============================================================================
 
-<<<<<<< HEAD
+
 A_img_paths = py.glob(py.join('datasets', args.dataset, 'trainA'), '*.jpg')
 B_img_paths = py.glob(py.join('datasets', args.dataset, 'trainB'), '*.jpg')
 A_B_dataset, len_dataset = data.make_zip_dataset(A_img_paths, B_img_paths, args.batch_size, args.load_size, args.crop_size, training=True, repeat=False, augmentation_preset = args.augmentation)
-=======
-A_img_paths = py.glob(py.join(args.datasets_dir, args.dataset, 'trainA'), '*.jpg')
-B_img_paths = py.glob(py.join(args.datasets_dir, args.dataset, 'trainB'), '*.jpg')
-A_B_dataset, len_dataset = data.make_zip_dataset(A_img_paths, B_img_paths, args.batch_size, args.load_size, args.crop_size, training=True, repeat=False)
->>>>>>> e5fecb902ff884968da182a8482c430b57f7cdc8
+
 
 A2B_pool = data.ItemPool(args.pool_size)
 B2A_pool = data.ItemPool(args.pool_size)
 
-<<<<<<< HEAD
 A_img_paths_test = py.glob(py.join('datasets', args.dataset, 'testA'), '*.jpg')
 B_img_paths_test = py.glob(py.join('datasets', args.dataset, 'testB'), '*.jpg')
 A_B_dataset_test, _ = data.make_zip_dataset(A_img_paths_test, B_img_paths_test, args.batch_size, args.load_size, args.crop_size, training=False, repeat=True, augmentation_preset = args.augmentation)
-=======
-A_img_paths_test = py.glob(py.join(args.datasets_dir, args.dataset, 'testA'), '*.jpg')
-B_img_paths_test = py.glob(py.join(args.datasets_dir, args.dataset, 'testB'), '*.jpg')
-A_B_dataset_test, _ = data.make_zip_dataset(A_img_paths_test, B_img_paths_test, args.batch_size, args.load_size, args.crop_size, training=False, repeat=True)
->>>>>>> e5fecb902ff884968da182a8482c430b57f7cdc8
 
 
 # ==============================================================================
 # =                                   models                                   =
 # ==============================================================================
-<<<<<<< HEAD
 G_downsamplings = args.n_downsamplings
 D_downsamplings = min(args.n_downsamplings + 1, 4)
 
@@ -105,14 +81,6 @@ G_B2A = module.ResnetGenerator(input_shape=(args.crop_size, args.crop_size, 3), 
 
 D_A = module.ConvDiscriminator(input_shape=(args.crop_size, args.crop_size, 3), dim = args.dim, n_downsamplings = D_downsamplings, norm = args.norm)
 D_B = module.ConvDiscriminator(input_shape=(args.crop_size, args.crop_size, 3), dim = args.dim, n_downsamplings = D_downsamplings, norm = args.norm)
-=======
-
-G_A2B = module.ResnetGenerator(input_shape=(args.crop_size, args.crop_size, 3))
-G_B2A = module.ResnetGenerator(input_shape=(args.crop_size, args.crop_size, 3))
-
-D_A = module.ConvDiscriminator(input_shape=(args.crop_size, args.crop_size, 3))
-D_B = module.ConvDiscriminator(input_shape=(args.crop_size, args.crop_size, 3))
->>>>>>> e5fecb902ff884968da182a8482c430b57f7cdc8
 
 d_loss_fn, g_loss_fn = gan.get_adversarial_losses_fn(args.adversarial_loss_mode)
 cycle_loss_fn = tf.losses.MeanAbsoluteError()
@@ -143,7 +111,6 @@ def train_G(A, B):
         B2A_g_loss = g_loss_fn(B2A_d_logits)
         A2B2A_cycle_loss = cycle_loss_fn(A, A2B2A)
         B2A2B_cycle_loss = cycle_loss_fn(B, B2A2B)
-<<<<<<< HEAD
         if args.identity_loss_weight > 0.0001:
             A2B_id_loss = identity_loss_fn(A, A2B)
             B2A_id_loss = identity_loss_fn(B, B2A)
@@ -169,23 +136,6 @@ def train_G(A, B):
                       'B2A_g_loss': B2A_g_loss,
                       'A2B2A_cycle_loss': A2B2A_cycle_loss,
                       'B2A2B_cycle_loss': B2A2B_cycle_loss}
-=======
-        A2B_id_loss = identity_loss_fn(A, A2B)
-        B2A_id_loss = identity_loss_fn(B, B2A)
-
-        G_loss = (A2B_g_loss + B2A_g_loss) + (A2B2A_cycle_loss + B2A2B_cycle_loss) * args.cycle_loss_weight + (A2B_id_loss + B2A_id_loss) * args.identity_loss_weight
-
-    G_grad = t.gradient(G_loss, G_A2B.trainable_variables + G_B2A.trainable_variables)
-    G_optimizer.apply_gradients(zip(G_grad, G_A2B.trainable_variables + G_B2A.trainable_variables))
-
-    return A2B, B2A, {'A2B_g_loss': A2B_g_loss,
-                      'B2A_g_loss': B2A_g_loss,
-                      'A2B2A_cycle_loss': A2B2A_cycle_loss,
-                      'B2A2B_cycle_loss': B2A2B_cycle_loss,
-                      'A2B_id_loss': A2B_id_loss,
-                      'B2A_id_loss': B2A_id_loss}
->>>>>>> e5fecb902ff884968da182a8482c430b57f7cdc8
-
 
 @tf.function
 def train_D(A, B, A2B, B2A):
