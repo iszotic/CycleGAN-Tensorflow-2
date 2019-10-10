@@ -31,13 +31,10 @@ B_dataset_test = data.make_dataset(B_img_paths_test, args.batch_size, args.load_
                                    training=False, drop_remainder=False, shuffle=False, repeat=1)
 
 # model
-<<<<<<< HEAD
 G_A2B = module.ResnetGenerator(input_shape=(args.crop_size, args.crop_size, 3), dim = args.dim, n_downsamplings = args.n_downsamplings, n_blocks = args.n_blocks)
 G_B2A = module.ResnetGenerator(input_shape=(args.crop_size, args.crop_size, 3), dim = args.dim, n_downsamplings = args.n_downsamplings, n_blocks = args.n_blocks)
-=======
-G_A2B = module.ResnetGenerator(input_shape=(args.crop_size, args.crop_size, 3))
-G_B2A = module.ResnetGenerator(input_shape=(args.crop_size, args.crop_size, 3))
->>>>>>> e5fecb902ff884968da182a8482c430b57f7cdc8
+
+
 
 # resotre
 tl.Checkpoint(dict(G_A2B=G_A2B, G_B2A=G_B2A), py.join(args.experiment_dir, 'checkpoints')).restore()
